@@ -1,24 +1,25 @@
 {
-  "project":[
+  "flashCards": [
     {
-      "id":"1",
-      "name": "Jest-dili",
-      "description": "Description for Project 1",
-      "link": "https://github.com/NarminM11/SDP-ProjecT.git"
+      "id": 1,
+      "front": "What is React?",
+      "back": "React is a JavaScript library for building user interfaces.",
+      "modifiedDate": "2023-01-01T12:00:00Z",
+      "status": "Learned"
     },
     {
-      "id":"2",
-      "name": "API_Data_Display",
-      "description": "Description for Project 2",
-      "link": "https://narminm11.github.io/API_Data_Display/"
+      "id": 2,
+      "front": "How does React handle data?",
+      "back": "React uses a virtual DOM to efficiently update the actual DOM.",
+      "modifiedDate": "2023-01-02T14:30:00Z",
+      "status": "Want to Learn"
     },
     {
-      "id":"3",
-      "name": "Personal-WebPage",
-      "description": "Description for Project 3",
-      "link": " https://narminm11.github.io/Personal-WebPage/"
+      "id": 3,
+      "front": "What is JSX?",
+      "back": "JSX is a syntax extension for JavaScript recommended by React.",
+      "modifiedDate": "2023-01-03T10:15:00Z",
+      "status": "Noted"
     }
-    
   ]
-   
 }

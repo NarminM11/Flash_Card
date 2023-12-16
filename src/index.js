@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import Home from './components/Home';
-import FlashCards from './components/FlashCards';
+import App from './App.js'
+import FlashCards from './components/FlashCards.js'
+import Home from './components/Home.js'
+
 
 import reportWebVitals from './reportWebVitals';
 
@@ -11,6 +13,7 @@ root.render(
   <React.StrictMode>
     {/* <Home /> */}
     <FlashCards />
+    {/* <App /> */}
   </React.StrictMode>
 );
 

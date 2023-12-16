@@ -1,28 +1,48 @@
-import React, { useState, useEffect } from 'react';
-import '../assets/FlashCards.css';
+import React, { useState, useEffect } from "react";
+import "../assets/FlashCards.css";
 
-const FlashCards = () => {
-  const [projects, setProjects] = useState([]);
+const FlashCard = () => {
+  const [Cards, setflashCards] = useState([]);
+  const [spin, setSnipped] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/project')
+    fetch("http://localhost:3000/flashCards")
       .then((response) => response.json())
-      .then((data) => setProjects(data))
+      .then((data) => setflashCards(data))
       .catch((error) => console.error(error));
   }, []);
+  
+
+  const spinCard = (index) => {
+    setSnipped((prevSpinned) => {
+      const newSpinned = [...prevSpinned];
+      newSpinned[index] = !newSpinned[index];
+      return newSpinned;
+    });
+  };
 
   return (
-    <div className="flash_cards-container">
-      {projects.map((project) => (
-        <div className="flash-card" key={project.id}>
-          <div className="front">
-            <h3>{project.name}</h3>
-            <p>{project.description}</p>
+    <>
+      <div className="container">
+        {Cards.map((flashCard, index) => (
+          <div
+            key={flashCard.id}
+            className={`Cards ${spin[index] ? "spinned" : ""}`}
+            onClick={() => spinCard(index)}
+          >
+            <div className="card front">
+              <h2>{flashCard.front}</h2>
+            </div>
+            <div className="card back">
+              <p>{flashCard.back}</p>
+              <p>Modified Date: {flashCard.modifiedDate}</p>
+              <p>Status: {flashCard.status}</p>
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </>
   );
 };
 
-export default FlashCards;
+export default FlashCard;
