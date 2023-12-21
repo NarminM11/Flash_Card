@@ -34,6 +34,27 @@ const FlashCard = () => {
     }));
   };
 
+    const handleAddNewCard = () => {
+    fetch("http://localhost:3000/flashCards", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newCardData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setFlashCards((prevCards) => [...prevCards, data]);
+        setNewCardData({
+          front: "",
+          back: "",
+          modifiedDate: "",
+          status: "",
+        });
+      })
+      .catch((error) => console.error(error));
+  };
+
   return (
     <>
       <div className="container">
@@ -83,7 +104,7 @@ const FlashCard = () => {
           value={newCardData.status}
           onChange={handleInputChange}
         />
-        <button>Add New Card</button>
+        <button onClick={handleAddNewCard}>Add New Card</button>
       </div>
     </>
   );

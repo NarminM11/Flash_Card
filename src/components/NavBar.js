@@ -15,11 +15,11 @@ const Navbar = () => {
       <span className="social-icons">
         <a
           className="social-media"
-          href="https://www.facebook.com"
+          href="https://github.com/NarminM11"
           target="_blank"
           rel=""
         >
-          Facebook
+          GitHub
         </a>
         <a
           className="social-media"
