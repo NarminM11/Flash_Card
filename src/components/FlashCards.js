@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../assets/FlashCards.css";
 
 const FlashCard = () => {
-  const [Cards, setFlashCards] = useState([]);
+  const [cards, setFlashCards] = useState([]);
   const [spin, setSpin] = useState([]);
   const [newCardData, setNewCardData] = useState({
     front: "",
@@ -26,15 +26,15 @@ const FlashCard = () => {
     });
   };
 
-  const handleInputChange = (d) => {
-    const { name, value } = d.target;
+  const handleInputChange = (c) => {
+    const { name, value } = c.target;
     setNewCardData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
-    const handleAddNewCard = () => {
+  const handleAddNewCard = () => {
     fetch("http://localhost:3000/flashCards", {
       method: "POST",
       headers: {
@@ -55,10 +55,22 @@ const FlashCard = () => {
       .catch((error) => console.error(error));
   };
 
+  const handleDeleteCard = (id) => {
+    fetch(`http://localhost:3000/flashCards/${id}`, {
+      method: "DELETE",
+    })
+      .then(() => {
+        setFlashCards((prevCards) => prevCards.filter((card) => card.id !== id));
+      })
+      .catch((error) => console.error(error));
+  };
+
+
+
   return (
     <>
       <div className="container">
-        {Cards.map((flashCard, index) => (
+        {cards.map((flashCard, index) => (
           <div
             key={flashCard.id}
             className={`Cards ${spin[index] ? "spinned" : ""}`}
@@ -66,11 +78,15 @@ const FlashCard = () => {
           >
             <div className="front">
               <h2>{flashCard.front}</h2>
+              <div className="card-buttons">
+                  <button onClick={() => handleDeleteCard(flashCard.id)}>Delete Card</button>
+                </div>
             </div>
             <div className="back">
               <p>{flashCard.back}</p>
-              <p>Modified Date: {flashCard.modifiedDate}</p>
-              <p>Status: {flashCard.status}</p>
+              {/* <p>Modified Date: {flashCard.modifiedDate}</p>
+              <p>Status: {flashCard.status}</p> */}
+              
             </div>
           </div>
         ))}

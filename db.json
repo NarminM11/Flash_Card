@@ -1,11 +1,11 @@
 {
   "flashCards": [
     {
-      "id": 1,
       "front": "What is React?",
       "back": "React is a JavaScript library for building user interfaces.",
       "modifiedDate": "2023-01-01T12:00:00Z",
-      "status": "Learned"
+      "status": "Learned",
+      "id": 1
     },
     {
       "id": 2,
@@ -20,27 +20,6 @@
       "back": "JSX is a syntax extension for JavaScript recommended by React.",
       "modifiedDate": "2023-01-03T10:15:00Z",
       "status": "Noted"
-    },
-    {
-      "front": "",
-      "back": "",
-      "modifiedDate": "xx",
-      "status": "x",
-      "id": 4
-    },
-    {
-      "front": "",
-      "back": "",
-      "modifiedDate": "ss",
-      "status": "ss",
-      "id": 5
-    },
-    {
-      "front": "",
-      "back": "jj",
-      "modifiedDate": "",
-      "status": "",
-      "id": 6
     }
   ]
 }
