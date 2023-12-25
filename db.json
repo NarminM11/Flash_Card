@@ -1,20 +1,6 @@
 {
   "flashCards": [
     {
-      "front": "What is React?",
-      "back": "React is a JavaScript library for building user interfaces.",
-      "modifiedDate": "2023-01-01T12:00:00Z",
-      "status": "Learned",
-      "id": 1
-    },
-    {
-      "id": 2,
-      "front": "How does React handle data?",
-      "back": "React uses a virtual DOM to efficiently update the actual DOM.",
-      "modifiedDate": "2023-01-02T14:30:00Z",
-      "status": "Want to Learn"
-    },
-    {
       "id": 3,
       "front": "What is JSX?",
       "back": "JSX is a syntax extension for JavaScript recommended by React.",
