@@ -9,6 +9,8 @@ const Navbar = () => {
       <ul className="nav-list">
         <li className="nav-item">Home</li>
         <li className="nav-item">FlashCards</li>
+        <li className="nav-item">Contact</li>
+
         {/* <Link to="../components/FlashCards.js">FlashCards</Link> */}
 
       </ul>
