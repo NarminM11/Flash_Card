@@ -1,3 +1,6 @@
+body {
+  font-family: 'Arial', sans-serif;
+}
 
 div {
   max-width: 600px;
@@ -13,6 +16,8 @@ h2 {
 form {
   display: grid;
   grid-gap: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
 }
 
 label {
@@ -29,23 +34,31 @@ textarea {
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 4px;
+  transition: border-color 0.3s ease-in-out;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #007bff;
 }
 
 button {
-  background-color:crimson;
+  background-color: crimson;
   color: #fff;
   padding: 10px 15px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
 button:hover {
-  background-color:greenyellow;
+  background-color: darkgreen;
+  transform: scale(1.05);
 }
 
 @media (max-width: 600px) {
   div {
-    padding: 10px;
+    padding: 5px;
   }
 }
