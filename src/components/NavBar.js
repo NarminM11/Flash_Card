@@ -5,14 +5,19 @@ import "../assets/Navbar.css";
 const Navbar = () => {
   return (
     <nav className="navbar">
-      <div className="logo">Logo</div>
+      <div className="logo">
+        {" "}
+        <img
+          src="https://cdn.dribbble.com/users/5214489/screenshots/16572960/media/6b27c24edb023951054ce638ca40592f.jpg?resize=400x0"
+          alt="Logo"
+          width="60"
+          height="60"
+        />
+      </div>
       <ul className="nav-list">
         <li className="nav-item">Home</li>
         <li className="nav-item">FlashCards</li>
         <li className="nav-item">Contact</li>
-
-        {/* <Link to="../components/FlashCards.js">FlashCards</Link> */}
-
       </ul>
       <span className="social-icons">
         <a
