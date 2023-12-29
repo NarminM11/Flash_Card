@@ -35,7 +35,7 @@ const FlashCard = () => {
   };
 
   const handleAddNewCard = () => {
-    fetch("http://localhost:3000/flashCards", {
+    fetch("http://localhost:3002/flashCards", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

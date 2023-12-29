@@ -2,9 +2,23 @@
   "messages": [],
   "flashCards": [
     {
-      "id": 3,
+      "id": 1,
       "front": "What is JSX?",
       "back": "JSX is a syntax extension for JavaScript recommended by React.",
+      "modifiedDate": "2023-01-03T10:15:00Z",
+      "status": "Noted"
+    },
+    {
+      "id": 2,
+      "front": "Explain the concept of 'game theory' in economics",
+      "back": "Game theory analyzes strategic interactions between rational decision-makers. It is used to understand behavior in competitive situations.",
+      "modifiedDate": "2023-01-03T10:15:00Z",
+      "status": "Noted"
+    },
+    {
+      "id": 3,
+      "front": "Discuss the impact of social media on interpersonal relationships.",
+      "back": "Social media can both strengthen and strain interpersonal relationships. It provides connectivity but may also contribute to issues such as social comparison and cyberbullying.",
       "modifiedDate": "2023-01-03T10:15:00Z",
       "status": "Noted"
     }
