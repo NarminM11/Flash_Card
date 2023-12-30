@@ -17,9 +17,9 @@ root.render(
          {/* <App />  */}
 
      {/* <Home />  */}
-    <FlashCards />
+    {/* <FlashCards /> */}
     {/* <App /> */}
-    {/* <Contact /> */}
+    <Contact />
   </React.StrictMode>
 );
 

@@ -1,73 +1,53 @@
-import React, { useState } from "react";
+import React from "react";
 import Navbar from "../components/Navbar";
+import { Form, Input, Button } from "antd";
 import "../assets/Contact.css";
 
 const ContactPage = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setFormData({
-      name: "",
-      email: "",
-      message: "",
-    });
+  const onFinish = (values) => {
+    console.log("Completed forms:", values);
   };
 
   return (
-    <>
+    <div>
       <Navbar />
-      <div className="contact-page">
-        <h2>Contact Me</h2>
-
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Enter your email"
-          required
-        />
-
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="name">Subject:</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Enter the subject"
-            required
-          />
-
-          <label htmlFor="message">Message:</label>
-          <textarea
-            id="message"
+      <div className="contact-container">
+        <h1>Contact Me</h1>
+        <Form
+          name="contact-form"
+          onFinish={onFinish}
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+        >
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: "Please enter your email!" }]}
+          >
+            <Input placeholder="Enter your email" />
+          </Form.Item>
+          <Form.Item
+            label="Subject"
+            name="subject"
+          >
+            <Input placeholder="Enter subject of message" />
+          </Form.Item>
+          <Form.Item
+            label="Message"
             name="message"
-            value={formData.message}
-            onChange={handleChange}
-            placeholder="Type your message here"
-            required
-          ></textarea>
+            rules={[{ required: true, message: "Please enter your message!" }]}
+          >
+            <Input.TextArea placeholder="Enter your message" />
+          </Form.Item>
 
-          <button type="submit">Send Email</button>
-        </form>
+          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
       </div>
-    </>
+    </div>
   );
 };
 
