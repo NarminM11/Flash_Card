@@ -4,8 +4,24 @@ import { Form, Input, Button } from "antd";
 import "../assets/Contact.css";
 
 const ContactPage = () => {
-  const onFinish = (values) => {
-    console.log("Completed forms:", values);
+  const onFinish = async (values) => {
+    try {
+      const response = await fetch("http://localhost:3000/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (response.ok) {
+        console.log("Message sent successfully");
+      } else {
+        console.error("Failed to send message");
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
   };
 
   return (
@@ -26,23 +42,22 @@ const ContactPage = () => {
           >
             <Input placeholder="Enter your email" />
           </Form.Item>
-          <Form.Item
-            label="Subject"
-            name="subject"
-          >
+          <Form.Item label="Subject" name="subject">
             <Input placeholder="Enter subject of message" />
           </Form.Item>
           <Form.Item
             label="Message"
             name="message"
-            rules={[{ required: true, message: "Please enter your message!" }]}
+            rules={[
+              { required: true, message: "Please enter your message!" },
+            ]}
           >
             <Input.TextArea placeholder="Enter your message" />
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button type="primary" htmlType="submit">
-              Submit
+              Send A Message
             </Button>
           </Form.Item>
         </Form>
