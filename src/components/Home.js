@@ -29,8 +29,7 @@ const projects = [
 const HomePage = () => {
   return (
     <>
-      <Navbar />
-      <div className="container">
+     <div className="container">
         {projects.map((project) => (
           <div key={project.id} className="project">
             <h2>{project.name}</h2>

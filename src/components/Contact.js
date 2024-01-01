@@ -26,7 +26,6 @@ const ContactPage = () => {
 
   return (
     <div>
-      <Navbar />
       <div className="contact-container">
         <h1>Contact Me</h1>
         <Form
