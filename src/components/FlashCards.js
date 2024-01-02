@@ -1,5 +1,52 @@
 import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import "../assets/FlashCards.css";
+
+const EditCardForm = ({ cardData, onSave, onCancel }) => {
+  const [editedCardData, setEditedCardData] = useState(cardData);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedCardData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  const handleSave = () => {
+    onSave(editedCardData);
+  };
+
+  const handleModalClick = (e) => {
+    e.stopPropagation();
+  };
+
+  return (
+    <div className="edit-form-modal" onClick={handleModalClick}>
+      <div className="edit-form-content">
+        <h2>Edit Card</h2>
+        <label>Front:</label>
+        <input
+          type="text"
+          name="front"
+          value={editedCardData.front}
+          onChange={handleInputChange}
+        />
+        <label>Back:</label>
+        <input
+          type="text"
+          name="back"
+          value={editedCardData.back}
+          onChange={handleInputChange}
+        />
+        <div className="edit-buttons">
+          <button onClick={handleSave}>Save</button>
+          <button onClick={onCancel}>Cancel</button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const FlashCard = () => {
   const [cards, setFlashCards] = useState([]);
@@ -10,6 +57,7 @@ const FlashCard = () => {
     modifiedDate: "",
     status: "",
   });
+  const [editedCardIndex, setEditedCardIndex] = useState(null);
 
   useEffect(() => {
     fetch("http://localhost:3000/flashCards")
@@ -26,8 +74,8 @@ const FlashCard = () => {
     });
   };
 
-  const handleInputChange = (c) => {
-    const { name, value } = c.target;
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
     setNewCardData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -35,7 +83,7 @@ const FlashCard = () => {
   };
 
   const handleAddNewCard = () => {
-    fetch("http://localhost:3002/flashCards", {
+    fetch("http://localhost:3000/flashCards", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -60,38 +108,96 @@ const FlashCard = () => {
       method: "DELETE",
     })
       .then(() => {
-        setFlashCards((prevCards) => prevCards.filter((card) => card.id !== id));
+        setFlashCards((prevCards) =>
+          prevCards.filter((card) => card.id !== id)
+        );
       })
       .catch((error) => console.error(error));
   };
 
+  const handleEditCard = (index, e) => {
+    e.stopPropagation();
+    setEditedCardIndex(index);
+  };
 
+  const handleSaveCard = (editedCardData) => {
+    const id = cards[editedCardIndex].id;
+
+    fetch(`http://localhost:3000/flashCards/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(editedCardData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setFlashCards((prevCards) =>
+          prevCards.map((card, index) =>
+            index === editedCardIndex ? data : card
+          )
+        );
+        setEditedCardIndex(null);
+      })
+      .catch((error) => console.error(error));
+  };
+
+  const handleCancelEdit = () => {
+    setEditedCardIndex(null);
+  };
 
   return (
-    <>
-      <div className="container">
+    <div className="flashcards-container">
+      <div className="all-cards">
         {cards.map((flashCard, index) => (
           <div
             key={flashCard.id}
             className={`Cards ${spin[index] ? "spinned" : ""}`}
             onClick={() => spinCard(index)}
           >
-            <div className="front">
-              <h2>{flashCard.front}</h2>
-              <div className="card-buttons">
-                  <button onClick={() => handleDeleteCard(flashCard.id)}>Delete Card</button>
-                </div>
-            </div>
+<div className="front">
+  {editedCardIndex === index ? (
+    <EditCardForm
+      cardData={flashCard}
+      onSave={handleSaveCard}
+      onCancel={handleCancelEdit}
+    />
+  ) : (
+    <div>
+      {flashCard.front.text && <h2>{flashCard.front.text}</h2>}
+      {flashCard.front.image && (
+        <img
+          src={flashCard.front.image}
+          alt={`Card Front for ${flashCard.front.text}`}
+        />
+      )}
+      <div className="button-container">
+        <div className="edit-button">
+          <button onClick={(e) => handleEditCard(index, e)}>
+            Edit Card
+          </button>
+        </div>
+        <div className="delete-button">
+          <button onClick={() => handleDeleteCard(flashCard.id)}>
+            {/* <FontAwesomeIcon icon={faTrash} /> */}
+            Delete Card
+          </button>
+        </div>
+      </div>
+    </div>
+  )}
+</div>
+
+
             <div className="back">
               <p>{flashCard.back}</p>
-              {/* <p>Modified Date: {flashCard.modifiedDate}</p>
-              <p>Status: {flashCard.status}</p> */}
-              
+              <p>Modified Date: {flashCard.modifiedDate}</p>
+              <p>Status: {flashCard.status}</p>
             </div>
           </div>
         ))}
       </div>
-      <div className="new-card">
+      <div className="add-new-card">
         <input
           type="text"
           name="front"
@@ -122,7 +228,7 @@ const FlashCard = () => {
         />
         <button onClick={handleAddNewCard}>Add New Card</button>
       </div>
-    </>
+    </div>
   );
 };
 

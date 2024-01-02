@@ -17,26 +17,181 @@
     }
   ],
   "flashCards": [
-    {
-      "id": 1,
-      "front": "What is JSX?",
-      "back": "JSX is a syntax extension for JavaScript recommended by React.",
-      "modifiedDate": "2023-01-03T10:15:00Z",
-      "status": "Noted"
+   {
+    "front": {
+      "text": "How to make lemonade?",
+      "image": "https://www.blossmangas.com/wp-content/uploads/2020/05/Lemonade-1-1.jpg" 
     },
-    {
-      "id": 2,
-      "front": "Explain the concept of 'game theory' in economics",
-      "back": "Game theory analyzes strategic interactions between rational decision-makers. It is used to understand behavior in competitive situations.",
-      "modifiedDate": "2023-01-03T10:15:00Z",
-      "status": "Noted"
+    "back": "Firstly, make the syrup,\njuice the lemons,\ncombine the lemon juice, syrup and water.\nWe should chill for at least 45 minutes.\nFinally, we can serve with ice and sliced lemons."
+    ,
+    "modifiedDate": "",
+    "status": "Learned",
+    "id": 1
+  },
+  {
+    "front": {
+      "text": "How to make lemonade?",
+      "image": "https://www.blossmangas.com/wp-content/uploads/2020/05/Lemonade-1-1.jpg" 
     },
-    {
-      "id": 3,
-      "front": "Discuss the impact of social media on interpersonal relationships.",
-      "back": "Social media can both strengthen and strain interpersonal relationships. It provides connectivity but may also contribute to issues such as social comparison and cyberbullying.",
-      "modifiedDate": "2023-01-03T10:15:00Z",
-      "status": "Noted"
-    }
+    "back": "Firstly, make the syrup,\njuice the lemons,\ncombine the lemon juice, syrup and water.\nWe should chill for at least 45 minutes.\nFinally, we can serve with ice and sliced lemons."
+    ,
+    "modifiedDate": "",
+    "status": "",
+    "id": 2
+  },
+  {
+    "front": {
+      "text": "How to make lemonade?",
+      "image": "https://www.blossmangas.com/wp-content/uploads/2020/05/Lemonade-1-1.jpg" 
+    },
+    "back": "Firstly, make the syrup,\njuice the lemons,\ncombine the lemon juice, syrup and water.\nWe should chill for at least 45 minutes.\nFinally, we can serve with ice and sliced lemons."
+    ,
+    "modifiedDate": "",
+    "status": "",
+    "id": 3
+  },
+  {
+    "front": {
+      "text": "How to make lemonade?",
+      "image": "https://www.blossmangas.com/wp-content/uploads/2020/05/Lemonade-1-1.jpg" 
+    },
+    "back": "Firstly, make the syrup,\njuice the lemons,\ncombine the lemon juice, syrup and water.\nWe should chill for at least 45 minutes.\nFinally, we can serve with ice and sliced lemons."
+    ,
+    "modifiedDate": "",
+    "status": "",
+    "id": 4
+  },
+  {
+    "front": {
+      "text": "How to make lemonade?",
+      "image": "https://www.blossmangas.com/wp-content/uploads/2020/05/Lemonade-1-1.jpg" 
+    },
+    "back": "Firstly, make the syrup,\njuice the lemons,\ncombine the lemon juice, syrup and water.\nWe should chill for at least 45 minutes.\nFinally, we can serve with ice and sliced lemons."
+    ,
+    "modifiedDate": "",
+    "status": "",
+    "id": 5
+  },
+  {
+    "front": {
+      "text": "How to make lemonade?",
+      "image": "https://www.blossmangas.com/wp-content/uploads/2020/05/Lemonade-1-1.jpg" 
+    },
+    "back": "Firstly, make the syrup,\njuice the lemons,\ncombine the lemon juice, syrup and water.\nWe should chill for at least 45 minutes.\nFinally, we can serve with ice and sliced lemons."
+    ,
+    "modifiedDate": "",
+    "status": "",
+    "id": 6
+  },
+  {
+    "front": {
+      "text": "How to make lemonade?",
+      "image": "https://www.blossmangas.com/wp-content/uploads/2020/05/Lemonade-1-1.jpg" 
+    },
+    "back": "Firstly, make the syrup,\njuice the lemons,\ncombine the lemon juice, syrup and water.\nWe should chill for at least 45 minutes.\nFinally, we can serve with ice and sliced lemons."
+    ,
+    "modifiedDate": "",
+    "status": "",
+    "id": 7
+  },
+  {
+    "front": {
+      "text": "How to make lemonade?",
+      "image": "https://www.blossmangas.com/wp-content/uploads/2020/05/Lemonade-1-1.jpg" 
+    },
+    "back": "Firstly, make the syrup,\njuice the lemons,\ncombine the lemon juice, syrup and water.\nWe should chill for at least 45 minutes.\nFinally, we can serve with ice and sliced lemons."
+    ,
+    "modifiedDate": "",
+    "status": "",
+    "id": 8
+  },
+  {
+    "front": {
+      "text": "How to make lemonade?",
+      "image": "https://www.blossmangas.com/wp-content/uploads/2020/05/Lemonade-1-1.jpg" 
+    },
+    "back": "Firstly, make the syrup,\njuice the lemons,\ncombine the lemon juice, syrup and water.\nWe should chill for at least 45 minutes.\nFinally, we can serve with ice and sliced lemons."
+    ,
+    "modifiedDate": "",
+    "status": "",
+    "id": 9
+  },
+  {
+    "front": {
+      "text": "How to make lemonade?",
+      "image": "https://www.blossmangas.com/wp-content/uploads/2020/05/Lemonade-1-1.jpg" 
+    },
+    "back": "Firstly, make the syrup,\njuice the lemons,\ncombine the lemon juice, syrup and water.\nWe should chill for at least 45 minutes.\nFinally, we can serve with ice and sliced lemons."
+    ,
+    "modifiedDate": "",
+    "status": "",
+    "id": 10
+  },
+  {
+    "front": {
+      "text": "How to make lemonade?",
+      "image": "https://www.blossmangas.com/wp-content/uploads/2020/05/Lemonade-1-1.jpg" 
+    },
+    "back": "Firstly, make the syrup,\njuice the lemons,\ncombine the lemon juice, syrup and water.\nWe should chill for at least 45 minutes.\nFinally, we can serve with ice and sliced lemons."
+    ,
+    "modifiedDate": "",
+    "status": "",
+    "id": 11
+  },
+  {
+    "front": {
+      "text": "How to make lemonade?",
+      "image": "https://www.blossmangas.com/wp-content/uploads/2020/05/Lemonade-1-1.jpg" 
+    },
+    "back": "Firstly, make the syrup,\njuice the lemons,\ncombine the lemon juice, syrup and water.\nWe should chill for at least 45 minutes.\nFinally, we can serve with ice and sliced lemons."
+    ,
+    "modifiedDate": "",
+    "status": "",
+    "id": 12
+  },
+  {
+    "front": {
+      "text": "How to make lemonade?",
+      "image": "https://www.blossmangas.com/wp-content/uploads/2020/05/Lemonade-1-1.jpg" 
+    },
+    "back": "Firstly, make the syrup,\njuice the lemons,\ncombine the lemon juice, syrup and water.\nWe should chill for at least 45 minutes.\nFinally, we can serve with ice and sliced lemons."
+    ,
+    "modifiedDate": "",
+    "status": "",
+    "id": 13
+  },
+  {
+    "front": {
+      "text": "How to make lemonade?",
+      "image": "https://www.blossmangas.com/wp-content/uploads/2020/05/Lemonade-1-1.jpg" 
+    },
+    "back": "Firstly, make the syrup,\njuice the lemons,\ncombine the lemon juice, syrup and water.\nWe should chill for at least 45 minutes.\nFinally, we can serve with ice and sliced lemons."
+    ,
+    "modifiedDate": "",
+    "status": "",
+    "id": 14
+  },
+  {
+    "front": {
+      "text": "How to make lemonade?",
+      "image": "https://www.blossmangas.com/wp-content/uploads/2020/05/Lemonade-1-1.jpg" 
+    },
+    "back": "Firstly, make the syrup,\njuice the lemons,\ncombine the lemon juice, syrup and water.\nWe should chill for at least 45 minutes.\nFinally, we can serve with ice and sliced lemons."
+    ,
+    "modifiedDate": "",
+    "status": "",
+    "id": 15
+  },
+  {
+    "front": {
+      "text": "How to make lemonade?",
+      "image": "https://www.blossmangas.com/wp-content/uploads/2020/05/Lemonade-1-1.jpg" 
+    },
+    "back": "Firstly, make the syrup,\njuice the lemons,\ncombine the lemon juice, syrup and water.\nWe should chill for at least 45 minutes.\nFinally, we can serve with ice and sliced lemons."
+    ,
+    "modifiedDate": "",
+    "status": "",
+    "id": 16
+  }
   ]
 }
