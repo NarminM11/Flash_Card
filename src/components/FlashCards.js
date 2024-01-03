@@ -73,6 +73,8 @@ const FlashCard = () => {
   const [cards, setFlashCards] = useState([]);
   const [spin, setSpin] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState("All");
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [sortOption, setSortOption] = useState("modifiedDate");
   const [newCardData, setNewCardData] = useState({
     front: "",
     back: "",
@@ -206,6 +208,25 @@ const FlashCard = () => {
 
     setSearchResults(filteredCards);
   };
+  const handleSortChange = (e) => {
+    setSortOption(e.target.value);
+    // Default sorting order to asc when changing the sorting attribute
+    setSortOrder("asc");
+  };
+  useEffect(() => {
+    let apiUrl = "http://localhost:3000/flashCards?";
+
+    if (selectedStatus !== "All") {
+      apiUrl += `status=${selectedStatus}&`;
+    }
+
+    apiUrl += `_sort=${sortOption}&_order=${sortOrder}`;
+
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => setFlashCards(data))
+      .catch((error) => console.error(error));
+  }, [selectedStatus, sortOption, sortOrder]);
 
   return (
     <div className="flashcards-container">
@@ -232,6 +253,20 @@ const FlashCard = () => {
         />
         <button onClick={handleSearchButtonClick} className="search-button">
           Search
+        </button>
+      </div>
+      <div className="sort-container">
+        <label className="sort-label">Sort by</label>
+        <select value={sortOption} onChange={handleSortChange}>
+          <option value="modifiedDate">Modified Date</option>
+          <option value="status">Status</option>
+          <option value="front.text">Front Text</option>
+        </select>
+
+        <button
+          onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
+        >
+          {sortOrder === "asc" ? "A-Z" : "Z-A"}
         </button>
       </div>
 
@@ -337,5 +372,3 @@ const FlashCard = () => {
 };
 
 export default FlashCard;
-
-
