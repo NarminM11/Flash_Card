@@ -4,15 +4,35 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import "../assets/FlashCards.css";
 
 const EditCardForm = ({ cardData, onSave, onCancel }) => {
-  const [editedCardData, setEditedCardData] = useState(cardData);
+  const [editedCardData, setEditedCardData] = useState({
+    front: { text: "", image: "" },
+    back: "",
+  });
+
+  useEffect(() => {
+    setEditedCardData(cardData);
+  }, [cardData]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditedCardData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+
+    if (name.startsWith("front.")) {
+      const frontProperty = name.split(".")[1];
+      setEditedCardData((prevData) => ({
+        ...prevData,
+        front: {
+          ...prevData.front,
+          [frontProperty]: value,
+        },
+      }));
+    } else {
+      setEditedCardData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
+
   const handleSave = () => {
     onSave(editedCardData);
   };
@@ -28,7 +48,7 @@ const EditCardForm = ({ cardData, onSave, onCancel }) => {
         <label>Front:</label>
         <input
           type="text"
-          name="front"
+          name="front.text"
           value={editedCardData.front.text}
           onChange={handleInputChange}
         />
@@ -166,10 +186,31 @@ const FlashCard = () => {
     setEditedCardIndex(null);
   };
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
+  const handleSearchInputChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSearchButtonClick = () => {
+    const searchText = searchQuery.toLowerCase();
+
+    const filteredCards = cards.filter((flashCard) => {
+      const frontText = flashCard.front.text
+        ? flashCard.front.text.toLowerCase()
+        : "";
+      const backText = flashCard.back.toLowerCase();
+      return frontText.includes(searchText) || backText.includes(searchText);
+    });
+
+    setSearchResults(filteredCards);
+  };
+
   return (
     <div className="flashcards-container">
       <div className="filter-container">
-        <label>Filter by Status</label>
+        <label className="filter-label">Filter by Status</label>
         <select
           value={selectedStatus}
           onChange={(e) => setSelectedStatus(e.target.value)}
@@ -180,62 +221,86 @@ const FlashCard = () => {
           <option value="Noted">Noted</option>
         </select>
       </div>
+      <div className="search-container">
+        <label className="search-label">Search</label>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={handleSearchInputChange}
+          placeholder="Search cards..."
+          className="search-input"
+        />
+        <button onClick={handleSearchButtonClick} className="search-button">
+          Search
+        </button>
+      </div>
 
       <div className="all-cards">
-        {cards.map((flashCard, index) => (
-          <div
-            key={flashCard.id}
-            className={`Cards ${spin[index] ? "spinned" : ""}`}
-            onClick={() => spinCard(index)}
-          >
-            <div className="front">
-              {editedCardIndex === index ? (
-                <EditCardForm
-                  cardData={flashCard}
-                  onSave={handleSaveCard}
-                  onCancel={handleCancelEdit}
-                />
-              ) : (
-                <div>
-                  {flashCard.front.text && <h2>{flashCard.front.text}</h2>}
-                  {flashCard.front.image && (
-                    <img
-                      src={flashCard.front.image}
-                      alt={`Card Front for ${flashCard.front.text}`}
-                    />
-                  )}
-                  <div className="button-container">
-                    <div className="edit-button">
-                      <button onClick={(e) => handleEditCard(index, e)}>
-                        Edit Card
-                      </button>
-                    </div>
-                    <div className="delete-button">
-                      <button onClick={() => handleDeleteCard(flashCard.id)}>
-                        {/* <FontAwesomeIcon icon={faTrash} /> */}
-                        Delete Card
-                      </button>
+        {cards
+          .filter((flashCard) => {
+            const frontText = flashCard.front.text
+              ? flashCard.front.text.toLowerCase()
+              : "";
+            const backText = flashCard.back.toLowerCase();
+            return (
+              frontText.includes(searchQuery.toLowerCase()) ||
+              backText.includes(searchQuery.toLowerCase())
+            );
+          })
+          .map((flashCard, index) => (
+            <div
+              key={flashCard.id}
+              className={`Cards ${spin[index] ? "spinned" : ""}`}
+              onClick={() => spinCard(index)}
+            >
+              <div className="front">
+                {editedCardIndex === index ? (
+                  <EditCardForm
+                    cardData={flashCard}
+                    onSave={handleSaveCard}
+                    onCancel={handleCancelEdit}
+                  />
+                ) : (
+                  <div>
+                    {flashCard.front.text && <h2>{flashCard.front.text}</h2>}
+                    {flashCard.front.image && (
+                      <img
+                        src={flashCard.front.image}
+                        alt={`Card Front for ${flashCard.front.text}`}
+                      />
+                    )}
+                    <div className="button-container">
+                      <div className="edit-button">
+                        <button onClick={(e) => handleEditCard(index, e)}>
+                          Edit Card
+                        </button>
+                      </div>
+                      <div className="delete-button">
+                        <button onClick={() => handleDeleteCard(flashCard.id)}>
+                          Delete Card
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
-            </div>
+                )}
+              </div>
 
-            <div className="back">
-              <p>{flashCard.back}</p>
-              <div>
-                <p>
-                  Modified Date:{" "}
-                  {flashCard.modifiedDate
-                    ? new Date(flashCard.modifiedDate).toLocaleString()
-                    : "Not available"}
-                </p>
-                <p>Status: {flashCard.status}</p>
+              <div className="back">
+                <p>{flashCard.back}</p>
+                <div>
+                  <p>
+                    Modified Date:{" "}
+                    {flashCard.modifiedDate
+                      ? new Date(flashCard.modifiedDate).toLocaleString()
+                      : "Not available"}
+                  </p>
+                  <p>Status: {flashCard.status}</p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
+
       <div className="add-new-card">
         <input
           type="text"
@@ -272,3 +337,5 @@ const FlashCard = () => {
 };
 
 export default FlashCard;
+
+
