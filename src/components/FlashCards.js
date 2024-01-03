@@ -29,7 +29,7 @@ const EditCardForm = ({ cardData, onSave, onCancel }) => {
         <input
           type="text"
           name="front"
-          value={editedCardData.front}
+          value={editedCardData.front.text}
           onChange={handleInputChange}
         />
         <label>Back:</label>
@@ -39,6 +39,7 @@ const EditCardForm = ({ cardData, onSave, onCancel }) => {
           value={editedCardData.back}
           onChange={handleInputChange}
         />
+
         <div className="edit-buttons">
           <button onClick={handleSave}>Save</button>
           <button onClick={onCancel}>Cancel</button>
@@ -51,16 +52,17 @@ const EditCardForm = ({ cardData, onSave, onCancel }) => {
 const FlashCard = () => {
   const [cards, setFlashCards] = useState([]);
   const [spin, setSpin] = useState([]);
+  const [selectedStatus, setSelectedStatus] = useState("All");
   const [newCardData, setNewCardData] = useState({
     front: "",
     back: "",
-    modifiedDate: "",
+    modifiedDate: new Date().toISOString(),
     status: "",
   });
   const [editedCardIndex, setEditedCardIndex] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:3000/flashCards")
+    fetch("http://localhost:3000/flashCards?_sort=modifiedDate&_order=desc")
       .then((response) => response.json())
       .then((data) => setFlashCards(data))
       .catch((error) => console.error(error));
@@ -81,6 +83,19 @@ const FlashCard = () => {
       [name]: value,
     }));
   };
+  useEffect(() => {
+    let apiUrl =
+      "http://localhost:3000/flashCards?_sort=modifiedDate&_order=desc";
+
+    if (selectedStatus !== "All") {
+      apiUrl += `&status=${selectedStatus}`;
+    }
+
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => setFlashCards(data))
+      .catch((error) => console.error(error));
+  }, [selectedStatus]);
 
   const handleAddNewCard = () => {
     fetch("http://localhost:3000/flashCards", {
@@ -88,7 +103,10 @@ const FlashCard = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(newCardData),
+      body: JSON.stringify({
+        ...newCardData,
+        modifiedDate: new Date().toISOString(),
+      }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -96,7 +114,7 @@ const FlashCard = () => {
         setNewCardData({
           front: "",
           back: "",
-          modifiedDate: "",
+          modifiedDate: new Date().toISOString(),
           status: "",
         });
       })
@@ -123,6 +141,8 @@ const FlashCard = () => {
   const handleSaveCard = (editedCardData) => {
     const id = cards[editedCardIndex].id;
 
+    editedCardData.modifiedDate = new Date().toISOString();
+
     fetch(`http://localhost:3000/flashCards/${id}`, {
       method: "PUT",
       headers: {
@@ -148,6 +168,19 @@ const FlashCard = () => {
 
   return (
     <div className="flashcards-container">
+      <div className="filter-container">
+        <label>Filter by Status</label>
+        <select
+          value={selectedStatus}
+          onChange={(e) => setSelectedStatus(e.target.value)}
+        >
+          <option value="All">All cards</option>
+          <option value="Learned">Learned</option>
+          <option value="Want to Learn">Want to Learn</option>
+          <option value="Noted">Noted</option>
+        </select>
+      </div>
+
       <div className="all-cards">
         {cards.map((flashCard, index) => (
           <div
@@ -155,44 +188,50 @@ const FlashCard = () => {
             className={`Cards ${spin[index] ? "spinned" : ""}`}
             onClick={() => spinCard(index)}
           >
-<div className="front">
-  {editedCardIndex === index ? (
-    <EditCardForm
-      cardData={flashCard}
-      onSave={handleSaveCard}
-      onCancel={handleCancelEdit}
-    />
-  ) : (
-    <div>
-      {flashCard.front.text && <h2>{flashCard.front.text}</h2>}
-      {flashCard.front.image && (
-        <img
-          src={flashCard.front.image}
-          alt={`Card Front for ${flashCard.front.text}`}
-        />
-      )}
-      <div className="button-container">
-        <div className="edit-button">
-          <button onClick={(e) => handleEditCard(index, e)}>
-            Edit Card
-          </button>
-        </div>
-        <div className="delete-button">
-          <button onClick={() => handleDeleteCard(flashCard.id)}>
-            {/* <FontAwesomeIcon icon={faTrash} /> */}
-            Delete Card
-          </button>
-        </div>
-      </div>
-    </div>
-  )}
-</div>
-
+            <div className="front">
+              {editedCardIndex === index ? (
+                <EditCardForm
+                  cardData={flashCard}
+                  onSave={handleSaveCard}
+                  onCancel={handleCancelEdit}
+                />
+              ) : (
+                <div>
+                  {flashCard.front.text && <h2>{flashCard.front.text}</h2>}
+                  {flashCard.front.image && (
+                    <img
+                      src={flashCard.front.image}
+                      alt={`Card Front for ${flashCard.front.text}`}
+                    />
+                  )}
+                  <div className="button-container">
+                    <div className="edit-button">
+                      <button onClick={(e) => handleEditCard(index, e)}>
+                        Edit Card
+                      </button>
+                    </div>
+                    <div className="delete-button">
+                      <button onClick={() => handleDeleteCard(flashCard.id)}>
+                        {/* <FontAwesomeIcon icon={faTrash} /> */}
+                        Delete Card
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
 
             <div className="back">
               <p>{flashCard.back}</p>
-              <p>Modified Date: {flashCard.modifiedDate}</p>
-              <p>Status: {flashCard.status}</p>
+              <div>
+                <p>
+                  Modified Date:{" "}
+                  {flashCard.modifiedDate
+                    ? new Date(flashCard.modifiedDate).toLocaleString()
+                    : "Not available"}
+                </p>
+                <p>Status: {flashCard.status}</p>
+              </div>
             </div>
           </div>
         ))}
