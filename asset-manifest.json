@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/NarminM11/Flash_Card/static/css/main.a116cfc0.css",
+    "main.js": "/NarminM11/Flash_Card/static/js/main.894099e6.js",
+    "index.html": "/NarminM11/Flash_Card/index.html",
+    "main.a116cfc0.css.map": "/NarminM11/Flash_Card/static/css/main.a116cfc0.css.map",
+    "main.894099e6.js.map": "/NarminM11/Flash_Card/static/js/main.894099e6.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a116cfc0.css",
+    "static/js/main.894099e6.js"
+  ]
+}
