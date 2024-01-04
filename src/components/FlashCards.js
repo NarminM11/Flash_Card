@@ -1,87 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import "../assets/FlashCards.css";
-
-const EditCardForm = ({ cardData, onSave, onCancel }) => {
-  const [editedCardData, setEditedCardData] = useState({
-    front: { text: "", image: "" },
-    back: "",
-  });
-
-  useEffect(() => {
-    setEditedCardData(cardData);
-  }, [cardData]);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-
-    if (name.startsWith("front.")) {
-      const frontProperty = name.split(".")[1];
-      setEditedCardData((prevData) => ({
-        ...prevData,
-        front: {
-          ...prevData.front,
-          [frontProperty]: value,
-        },
-      }));
-    } else {
-      setEditedCardData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    }
-  };
-
-  const handleSave = () => {
-    onSave(editedCardData);
-  };
-
-  const handleModalClick = (e) => {
-    e.stopPropagation();
-  };
-
-  return (
-    <div className="edit-form-modal" onClick={handleModalClick}>
-      <div className="edit-form-content">
-        <h2>Edit Card</h2>
-        <label>Front:</label>
-        <input
-          type="text"
-          name="front.text"
-          value={editedCardData.front.text}
-          onChange={handleInputChange}
-        />
-        <label>Back:</label>
-        <input
-          type="text"
-          name="back"
-          value={editedCardData.back}
-          onChange={handleInputChange}
-        />
-
-        <div className="edit-buttons">
-          <button onClick={handleSave}>Save</button>
-          <button onClick={onCancel}>Cancel</button>
-        </div>
-      </div>
-    </div>
-  );
-};
+import EditCardForm from "../components/EditCardForm";
 
 const FlashCard = () => {
   const [cards, setFlashCards] = useState([]);
   const [spin, setSpin] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [sortOrder, setSortOrder] = useState("asc");
-  const [sortOption, setSortOption] = useState("modifiedDate");
+  const [sortOption, setSortOption] = useState("Choose");
+  const [editedCardIndex, setEditedCardIndex] = useState(null);
+  const [current, setCurrent] = useState(0);
+  const cardsPerPage = 2;
   const [newCardData, setNewCardData] = useState({
     front: "",
     back: "",
     modifiedDate: new Date().toISOString(),
     status: "",
   });
-  const [editedCardIndex, setEditedCardIndex] = useState(null);
 
   useEffect(() => {
     fetch("http://localhost:3000/flashCards?_sort=modifiedDate&_order=desc")
@@ -105,6 +40,7 @@ const FlashCard = () => {
       [name]: value,
     }));
   };
+
   useEffect(() => {
     let apiUrl =
       "http://localhost:3000/flashCards?_sort=modifiedDate&_order=desc";
@@ -188,8 +124,20 @@ const FlashCard = () => {
     setEditedCardIndex(null);
   };
 
+  const [flashcarddata, setFlashcarddata] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+
+  useEffect(() => {
+    const url =
+      "https://api.airtable.com/v0/appqY5UZYlf41Q5VT/Table%201?api_key=keyPZ9SKzXIt4Ek1v";
+    fetch(url)
+      .then((response) => response.json())
+      .then((json) => {
+        setFlashcarddata(json.records);
+      })
+      .catch((error) => console.error(error));
+  }, []);
 
   const handleSearchInputChange = (e) => {
     setSearchQuery(e.target.value);
@@ -208,11 +156,12 @@ const FlashCard = () => {
 
     setSearchResults(filteredCards);
   };
+
   const handleSortChange = (e) => {
     setSortOption(e.target.value);
-    // Default sorting order to asc when changing the sorting attribute
     setSortOrder("asc");
   };
+
   useEffect(() => {
     let apiUrl = "http://localhost:3000/flashCards?";
 
@@ -227,6 +176,31 @@ const FlashCard = () => {
       .then((data) => setFlashCards(data))
       .catch((error) => console.error(error));
   }, [selectedStatus, sortOption, sortOrder]);
+
+  const [sortDirection, setSortDirection] = useState("asc");
+
+  const handleSort = () => {
+    let apiUrl = "http://localhost:3000/flashCards?";
+
+    if (selectedStatus !== "All") {
+      apiUrl += `status=${selectedStatus}&`;
+    }
+
+    apiUrl += `_sort=${sortOption}&_order=${sortDirection}`;
+
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => setFlashCards(data))
+      .catch((error) => console.error(error));
+  };
+
+  function previousCard() {
+    setCurrent(current - 1);
+  }
+
+  function nextCard() {
+    setCurrent(current + 1);
+  }
 
   return (
     <div className="flashcards-container">
@@ -258,82 +232,149 @@ const FlashCard = () => {
       <div className="sort-container">
         <label className="sort-label">Sort by</label>
         <select value={sortOption} onChange={handleSortChange}>
+          <option value="Choose">Choose</option>
           <option value="modifiedDate">Modified Date</option>
           <option value="status">Status</option>
           <option value="front.text">Front Text</option>
         </select>
 
-        <button
-          onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
+        <select
+          value={sortDirection}
+          onChange={(e) => setSortDirection(e.target.value)}
         >
-          {sortOrder === "asc" ? "A-Z" : "Z-A"}
-        </button>
+          <option value="asc">A-Z</option>
+          <option value="desc">Z-A</option>
+        </select>
+
+        <button onClick={handleSort}>Sort</button>
       </div>
 
       <div className="all-cards">
-        {cards
-          .filter((flashCard) => {
-            const frontText = flashCard.front.text
-              ? flashCard.front.text.toLowerCase()
-              : "";
-            const backText = flashCard.back.toLowerCase();
-            return (
-              frontText.includes(searchQuery.toLowerCase()) ||
-              backText.includes(searchQuery.toLowerCase())
-            );
-          })
-          .map((flashCard, index) => (
-            <div
-              key={flashCard.id}
-              className={`Cards ${spin[index] ? "spinned" : ""}`}
-              onClick={() => spinCard(index)}
-            >
-              <div className="front">
-                {editedCardIndex === index ? (
-                  <EditCardForm
-                    cardData={flashCard}
-                    onSave={handleSaveCard}
-                    onCancel={handleCancelEdit}
-                  />
-                ) : (
-                  <div>
-                    {flashCard.front.text && <h2>{flashCard.front.text}</h2>}
-                    {flashCard.front.image && (
-                      <img
-                        src={flashCard.front.image}
-                        alt={`Card Front for ${flashCard.front.text}`}
-                      />
-                    )}
-                    <div className="button-container">
-                      <div className="edit-button">
-                        <button onClick={(e) => handleEditCard(index, e)}>
-                          Edit Card
-                        </button>
-                      </div>
-                      <div className="delete-button">
-                        <button onClick={() => handleDeleteCard(flashCard.id)}>
-                          Delete Card
-                        </button>
+        {searchResults.length > 0
+          ? searchResults.map((flashCard, index) => (
+              <div
+                key={flashCard.id}
+                className={`Cards ${spin[index] ? "spinned" : ""}`}
+                onClick={() => spinCard(index)}
+              >
+                <div className="front">
+                  {editedCardIndex === index ? (
+                    <EditCardForm
+                      cardData={flashCard}
+                      onSave={handleSaveCard}
+                      onCancel={handleCancelEdit}
+                    />
+                  ) : (
+                    <div>
+                      {flashCard.front.text && <h2>{flashCard.front.text}</h2>}
+                      {flashCard.front.image && (
+                        <img
+                          src={flashCard.front.image}
+                          alt={`Card Front for ${flashCard.front.text}`}
+                        />
+                      )}
+                      <div className="button-container">
+                        <div className="edit-button">
+                          <button onClick={(e) => handleEditCard(index, e)}>
+                            Edit Card
+                          </button>
+                        </div>
+                        <div className="delete-button">
+                          <button
+                            onClick={() => handleDeleteCard(flashCard.id)}
+                          >
+                            Delete Card
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>
 
-              <div className="back">
-                <p>{flashCard.back}</p>
-                <div>
-                  <p>
-                    Modified Date:{" "}
-                    {flashCard.modifiedDate
-                      ? new Date(flashCard.modifiedDate).toLocaleString()
-                      : "Not available"}
-                  </p>
-                  <p>Status: {flashCard.status}</p>
+                <div className="back">
+                  <p>{flashCard.back}</p>
+                  <div>
+                    <p>
+                      Modified Date:{" "}
+                      {flashCard.modifiedDate
+                        ? new Date(flashCard.modifiedDate).toLocaleString()
+                        : "Not available"}
+                    </p>
+                    <p>Status: {flashCard.status}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          : cards
+              .slice(current * cardsPerPage, (current + 1) * cardsPerPage)
+              .map((flashCard, index) => (
+                <div
+                  key={flashCard.id}
+                  className={`Cards ${spin[index] ? "spinned" : ""}`}
+                  onClick={() => spinCard(index)}
+                >
+                  <div className="front">
+                    {editedCardIndex === index ? (
+                      <EditCardForm
+                        cardData={flashCard}
+                        onSave={handleSaveCard}
+                        onCancel={handleCancelEdit}
+                      />
+                    ) : (
+                      <div>
+                        {flashCard.front.text && (
+                          <h2>{flashCard.front.text}</h2>
+                        )}
+                        {flashCard.front.image && (
+                          <img
+                            src={flashCard.front.image}
+                            alt={`Card Front for ${flashCard.front.text}`}
+                          />
+                        )}
+                        <div className="button-container">
+                          <div className="edit-button">
+                            <button onClick={(e) => handleEditCard(index, e)}>
+                              Edit Card
+                            </button>
+                          </div>
+                          <div className="delete-button">
+                            <button
+                              onClick={() => handleDeleteCard(flashCard.id)}
+                            >
+                              Delete Card
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="back">
+                    <p>{flashCard.back}</p>
+                    <div>
+                      <p>
+                        Modified Date:{" "}
+                        {flashCard.modifiedDate
+                          ? new Date(flashCard.modifiedDate).toLocaleString()
+                          : "Not available"}
+                      </p>
+                      <p>Status: {flashCard.status}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+      </div>
+
+      <div className="nav">
+        <button onClick={previousCard} disabled={current === 0}>
+          Previous page
+        </button>
+        <button
+          onClick={nextCard}
+          disabled={current === Math.ceil(cards.length / cardsPerPage) - 1}
+        >
+          Next page
+        </button>
       </div>
 
       <div className="add-new-card">

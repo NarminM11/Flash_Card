@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from "../components/Navbar";
 import { Form, Input, Button } from "antd";
 import "../assets/Contact.css";
 
@@ -47,16 +46,14 @@ const ContactPage = () => {
           <Form.Item
             label="Message"
             name="message"
-            rules={[
-              { required: true, message: "Please enter your message!" },
-            ]}
+            rules={[{ required: true, message: "Please enter your message!" }]}
           >
             <Input.TextArea placeholder="Enter your message" />
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button type="primary" htmlType="submit">
-              Send A Message
+              Send Message
             </Button>
           </Form.Item>
         </Form>

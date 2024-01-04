@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from "../components/Navbar";
 import "../assets/Home.css";
 
 const projects = [
@@ -29,7 +28,7 @@ const projects = [
 const HomePage = () => {
   return (
     <>
-     <div className="container">
+      <div className="container">
         {projects.map((project) => (
           <div key={project.id} className="project">
             <h2>{project.name}</h2>

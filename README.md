@@ -68,3 +68,51 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+Clone this repoistory:
+git clone https://github.com/your-username/flash-cards-react-app.git
+cd flash-cards-react-app
+
+Install dependencies:
+npm install
+
+Then, run json server:
+npm run json-server
+
+Running React App:
+npm start
+
+The app will be available at http://localhost:3000.
+
+Features -->
+
+Home Page-->
+General introduction and information about your projects with external links.
+
+Flash Cards Page-->
+
+Flash Card Structure:
+Each card has two sides: front (short text, question, or image) and back (answer, information).
+Cards include a last modification date/time and a status (Learned, Want to Learn, Noted).
+
+Flash Card Management:
+Create new flash cards.
+Hovering over a card shows edit and delete buttons.
+Edit/Update: Opens a pop-up page or turns the card into an editable component.
+Delete: Removes a card from the collection.
+
+Main Page Features:
+Display Cards: List of cards fetched from http://localhost:3000/cards, sorted by most recent modification.
+Create Card Option: Interface for adding new cards.
+Search Functionality: Search cards based on text on either side.
+Filter Option: Filter cards by their status(learned, noted, want to learn).
+Sort Option: Sort cards based on modified date, status,front text order A-Z or Z-A.
+
+Storage Integration:
+All cards are fetched from the JSON server, and updates are persisted back to it.
+
+Extra:
+Pagination or Infinite Scrolling: Load more cards as the user scrolls down.
+
+Contact Me Page:
+A simple contact page that asks the user to enter the subject, email address, and content of the message. When the user submits, the message is sent to http://localhost:3000/messages as a JSON body and stored in a JSON file on the JSON server.

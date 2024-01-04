@@ -10,43 +10,28 @@ import {
 } from "@ant-design/icons";
 import "../assets/Navbar.css";
 
-
 const Navbar = () => {
+  const menuItems = [
+    { key: "1", icon: <HomeOutlined />, label: "Home", link: "/" },
+    {
+      key: "2",
+      icon: <BookOutlined />,
+      label: "FlashCards",
+      link: "/flashcards",
+    },
+    { key: "3", icon: <MailOutlined />, label: "Contact", link: "/contact" },
+  ];
+
   return (
-      <div>
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]}>
-          <Menu.Item key="1" icon={<HomeOutlined />}>
-            <Link to="/">Home</Link>
+    <div>
+      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]}>
+        {menuItems.map((item) => (
+          <Menu.Item key={item.key} icon={item.icon}>
+            <Link to={item.link}>{item.label}</Link>
           </Menu.Item>
-          <Menu.Item key="2" icon={<BookOutlined />}>
-            <Link to="/flashcards">FlashCards</Link>
-          </Menu.Item>
-          <Menu.Item key="3" icon={<MailOutlined />}>
-            <Link to="/contact">Contact</Link>
-          </Menu.Item>
-          <Menu.Item key= "4" >
-          <span className="social-icons">
-          <a
-            className="social-media"
-            href="https://github.com/NarminM11"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <GithubOutlined />
-          </a>
-          <a
-            className="social-media"
-            href="https://www.instagram.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <InstagramOutlined />
-          </a>
-        </span>
-          </Menu.Item>
-        </Menu>
-        
-      </div>
+        ))}
+      </Menu>
+    </div>
   );
 };
 
