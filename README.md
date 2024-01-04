@@ -116,3 +116,6 @@ Pagination or Infinite Scrolling: Load more cards as the user scrolls down.
 
 Contact Me Page:
 A simple contact page that asks the user to enter the subject, email address, and content of the message. When the user submits, the message is sent to http://localhost:3000/messages as a JSON body and stored in a JSON file on the JSON server.
+
+Deployed:
+https://narminm11.github.io/Flash_Card/
